@@ -1,0 +1,24 @@
+- hosts: do_server
+
+  tasks:
+    - name: Install tools packages
+      become: yes
+      ansible.builtin.apt:
+        update_cache: yes
+        state: present
+        name:
+          - git
+          - curl
+          - bash
+
+    - name: Set global user.email
+      community.general.git_config:
+        name: user.email
+        scope: global
+        value: "{{ git_user_email }}"
+
+    - name: Set global user.name
+      community.general.git_config:
+        name: user.name
+        scope: global
+        value: "{{ git_user_name }}"
